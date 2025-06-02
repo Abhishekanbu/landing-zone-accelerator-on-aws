@@ -1,12 +1,43 @@
-accounts:
-  # Account 1: Relevance Lab (Management)
-  - name: Relevance_Lab
-    id: 549974527830
+mandatoryAccounts:
+  - name: Management
+    description: The management (primary) account.
     email: devops.support@relevancelab.com
     organizationalUnit: Root
+  - name: LogArchive
+    description: The log archive account.
+    email: logawsct2@relevancelab.com
+    organizationalUnit: Security
+  - name: Audit
+    description: The security audit account.
+    email: auditawsct2@relevancelab.com
+    organizationalUnit: Security
 
-  # Account 2: RES-DEMO
-  - name: RES_DEMO
-    id: 881490115770
+workloadAccounts:
+  - name: RES-DEMO
+    description: RES-DEMO account
     email: res.testing@relevancelab.com
-    organizationalUnit: Root
+    organizationalUnit: RES
+  - name: RLCatalystProd
+    description: RLCatalyst Production account
+    email: rlcatalystprod@relevancelab.com
+    organizationalUnit: RLRGProd
+  - name: RLCatalyst_NonProd
+    description: RLCatalyst Non-Production account
+    email: neoresearch@relevancelab.com
+    organizationalUnit: RLRG_QA
+  - name: RG_Testing
+    description: RG Testing account
+    email: rgtest@relevancelab.com
+    organizationalUnit: RLRG_QA
+  - name: SCHL-Project-Workspaces
+    description: SCHL Project Workspaces account
+    email: schlworkspaces@relevancelab.com
+    organizationalUnit: SCHL
+  - name: RLDevOpsIndia
+    description: RL DevOps India account
+    email: rldevopsindia@relevancelab.com
+    organizationalUnit: Devops
+  - name: Data_Team
+    description: Data Team account
+    email: rlserviceone19@relevancelab.com
+    organizationalUnit: Data_Team
