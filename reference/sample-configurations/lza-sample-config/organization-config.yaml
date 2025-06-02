@@ -1,3 +1,4 @@
+enable: true
 organizationalUnits:
   - name: RLRGProd
   - name: Security
@@ -7,3 +8,6 @@ organizationalUnits:
   - name: Data_Team
   - name: Infrastructure
   - name: SCHL
+serviceControlPolicies: []
+taggingPolicies: []
+backupPolicies: []
