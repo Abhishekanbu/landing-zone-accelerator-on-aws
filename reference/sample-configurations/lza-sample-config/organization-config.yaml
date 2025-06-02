@@ -8,5 +8,3 @@ organizationalUnits:
   - name: RLRG_QA
   - name: Data_Team
   - name: SCHL
-  - name: Suspended
-    ignore: true
