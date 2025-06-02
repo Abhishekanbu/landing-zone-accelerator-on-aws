@@ -1,21 +1,12 @@
+enable: true
 organizationalUnits:
-  # The Root of your Organization
-  - name: Root
-    id: r-mkav
-    childOUs:
-      - name: RLRGProd
-        id: ou-mkav-5k9x4sqp
-      - name: Security
-        id: ou-mkav-8wu0ik2o
-      - name: Devops
-        id: ou-mkav-edw8v2xd
-      - name: RES
-        id: ou-mkav-gj79ed96
-      - name: RLRG_QA
-        id: ou-mkav-ssjci756
-      - name: Data_Team
-        id: ou-mkav-v0o8uq7t
-      - name: Infrastructure
-        id: ou-mkav-xujm9k62
-      - name: SCHL
-        id: ou-mkav-zi5nll3q
+  - name: Security
+  - name: Infrastructure
+  - name: RLRGProd
+  - name: Devops
+  - name: RES
+  - name: RLRG_QA
+  - name: Data_Team
+  - name: SCHL
+  - name: Suspended
+    ignore: true
