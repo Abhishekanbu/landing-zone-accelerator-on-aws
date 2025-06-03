@@ -1,13 +1,158 @@
+# --------------------------------------------------------------------
+# organization-config.yaml
+#
+# Defines which OUs exist and which SCPs (service control policies)
+# are attached to each OU. This must match exactly what you saw
+# via `aws organizations list-policies-for-target`.
+# --------------------------------------------------------------------
+
 enable: true
+
 organizationalUnits:
-  - name: RLRGProd
   - name: Security
+  - name: Infrastructure
+  - name: RLRGProd
   - name: Devops
   - name: RES
   - name: RLRG_QA
   - name: Data_Team
-  - name: Infrastructure
   - name: SCHL
-serviceControlPolicies: []
+
+serviceControlPolicies:
+  # ------------------------------------------------------------------
+  # 1) AWS-Managed "FullAWSAccess" (exists on every OU)
+  # ------------------------------------------------------------------
+  - name: FullAWSAccess
+    description: "AWS-managed FullAWSAccess (already attached to every OU)"
+    type: awsManaged
+    deploymentTargets:
+      organizationalUnits:
+        - Security
+        - Infrastructure
+        - RLRGProd
+        - Devops
+        - RES
+        - RLRG_QA
+        - Data_Team
+        - SCHL
+
+  # ------------------------------------------------------------------
+  # 2) Custom guardrail on RLRGProd: aws-guardrails-LbIEpF (ID p-vkjytto0)
+  # ------------------------------------------------------------------
+  - name: aws-guardrails-LbIEpF
+    description: "Existing guardrail on RLRGProd"
+    type: customerManaged
+    policy: service-control-policies/guardrails-LbIEpF.json
+    deploymentTargets:
+      organizationalUnits:
+        - RLRGProd
+
+  # ------------------------------------------------------------------
+  # 3) Custom guardrails on Security OU:
+  #    • aws-guardrails-aTqoEy (ID p-0snn2t8y)
+  #    • aws-guardrails-UlZCmp (ID p-hmjdg1qz)
+  # ------------------------------------------------------------------
+  - name: aws-guardrails-aTqoEy
+    description: "Existing guardrail on Security"
+    type: customerManaged
+    policy: service-control-policies/guardrails-aTqoEy.json
+    deploymentTargets:
+      organizationalUnits:
+        - Security
+
+  - name: aws-guardrails-UlZCmp
+    description: "Existing guardrail on Security"
+    type: customerManaged
+    policy: service-control-policies/guardrails-UlZCmp.json
+    deploymentTargets:
+      organizationalUnits:
+        - Security
+
+  # ------------------------------------------------------------------
+  # 4) Custom SCPs on Devops & Data_Team OU:
+  #    • EnableMFA (ID p-oylsnw3d)
+  #    • Allow-US-Only (ID p-qe2b3en7)
+  # ------------------------------------------------------------------
+  - name: EnableMFA
+    description: "Existing custom SCP 'EnableMFA' on Devops & Data_Team"
+    type: customerManaged
+    policy: service-control-policies/enable-mfa.json
+    deploymentTargets:
+      organizationalUnits:
+        - Devops
+        - Data_Team
+
+  - name: Allow-US-Only
+    description: "Existing custom SCP 'Allow-US-Only' on Devops, RES & Data_Team"
+    type: customerManaged
+    policy: service-control-policies/allow-us-only.json
+    deploymentTargets:
+      organizationalUnits:
+        - Devops
+        - RES
+        - Data_Team
+
+  # ------------------------------------------------------------------
+  # 5) (RES OU already has "Allow-US-Only" and "FullAWSAccess")
+  # ------------------------------------------------------------------
+  # No extra entry needed here.
+
+  # ------------------------------------------------------------------
+  # 6) Custom guardrail on RLRG_QA OU:
+  #    • aws-guardrails-FGjHwt (ID p-zr3yh4k4)
+  # ------------------------------------------------------------------
+  - name: aws-guardrails-FGjHwt
+    description: "Existing guardrail on RLRG_QA"
+    type: customerManaged
+    policy: service-control-policies/guardrails-FGjHwt.json
+    deploymentTargets:
+      organizationalUnits:
+        - RLRG_QA
+
+  # ------------------------------------------------------------------
+  # 7) Custom policies on Data_Team OU:
+  #    • BudgetBlockAllNewActions (ID p-5ofyy08j)
+  #    • aws-guardrails-Ntpcst (ID p-j9udrxxq)
+  #    • (EnableMFA & Allow-US-Only are already declared above)
+  # ------------------------------------------------------------------
+  - name: BudgetBlockAllNewActions
+    description: "Existing custom SCP 'BudgetBlockAllNewActions' on Data_Team"
+    type: customerManaged
+    policy: service-control-policies/budget-block-all-new-actions.json
+    deploymentTargets:
+      organizationalUnits:
+        - Data_Team
+
+  - name: aws-guardrails-Ntpcst
+    description: "Existing guardrail on Data_Team"
+    type: customerManaged
+    policy: service-control-policies/guardrails-Ntpcst.json
+    deploymentTargets:
+      organizationalUnits:
+        - Data_Team
+
+  # ------------------------------------------------------------------
+  # 8) Custom guardrail on Infrastructure OU:
+  #    • aws-guardrails-LcGFhe (ID p-gvdzheu6)
+  # ------------------------------------------------------------------
+  - name: aws-guardrails-LcGFhe
+    description: "Existing guardrail on Infrastructure"
+    type: customerManaged
+    policy: service-control-policies/guardrails-LcGFhe.json
+    deploymentTargets:
+      organizationalUnits:
+        - Infrastructure
+
+  # ------------------------------------------------------------------
+  # 9) Custom guardrail on SCHL OU:
+  #    • aws-guardrails-LDWROX (ID p-hbitd54e)
+  # ------------------------------------------------------------------
+  - name: aws-guardrails-LDWROX
+    description: "Existing guardrail on SCHL"
+    type: customerManaged
+    policy: service-control-policies/guardrails-LDWROX.json
+    deploymentTargets:
+      organizationalUnits:
+        - SCHL
 taggingPolicies: []
 backupPolicies: []
